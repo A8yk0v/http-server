@@ -126,6 +126,7 @@ void *worker(void *arg)
             strcat(out_msg, read_msg);
 
             write(sockfd, out_msg, sizeof(out_msg));
+            fclose(file);
         }
     }
 
