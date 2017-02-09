@@ -5,7 +5,8 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
+// dla inet_pton()
+#include <arpa/inet.h>
 // read() write()
 #include <unistd.h>
 // dla pthread_creat() i pthread_detach()
@@ -33,7 +34,8 @@ int daemonize()
     if ( pid == -1 )
         return -1;
 
-    return 1;
+    printf("Success: process %d went to background\n", pid);
+    return pid;
 }
 
 struct http_msg {
@@ -156,6 +158,10 @@ int main(int argc, char *argv[])
     }
     // ----- ----- -----
 
+    if ( daemonize() > 0 ) {
+        return 0;
+    }
+
     int listenfd, connfd;
     socklen_t clilen;
     struct sockaddr_in cliaddr, servaddr;
@@ -167,8 +173,9 @@ int main(int argc, char *argv[])
 
     memset(&servaddr, 0, sizeof(servaddr));
     servaddr.sin_family = AF_INET;
-    servaddr.sin_addr.s_addr = htonl(INADDR_ANY);
-    servaddr.sin_port = htons(3492);
+    //servaddr.sin_addr.s_addr = htonl(/*INADDR_ANY*/);
+    inet_pton(AF_INET, g_ip, &(servaddr.sin_addr));
+    servaddr.sin_port = htons(/*3492*/atoi(g_port));
 
     bind(listenfd, (struct sockaddr*)&servaddr, sizeof(servaddr));
 
