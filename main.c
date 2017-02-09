@@ -34,7 +34,7 @@ int daemonize()
     if ( pid == -1 )
         return -1;
 
-    printf("Success: process %d went to background\n", pid);
+    ///printf("Success: process %d went to background\n", pid);
     return pid;
 }
 
@@ -141,15 +141,15 @@ int main(int argc, char *argv[])
     {
         switch (rez) {
         case 'h':
-            printf("argument h: %s\n", optarg);
+            ///printf("argument h: %s\n", optarg);
             strcpy(g_ip, optarg);
             break;
         case 'p':
-            printf("argument p: %s\n", optarg);
+            ///printf("argument p: %s\n", optarg);
             strcpy(g_port, optarg);
             break;
         case 'd':
-            printf("argument d: %s\n", optarg);
+            ///printf("argument d: %s\n", optarg);
             strcpy(g_dir, optarg);
             break;
         case '?':
